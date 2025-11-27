@@ -1,218 +1,184 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpticalH Converter Pro</title>
+    
+    <!-- SEO PRINCIPAL -->
+    <title>Aether Convert | Free WebP to JPG & PNG Converter Tool</title>
+    <meta name="description" content="Convert WebP images to high-quality JPG or PNG instantly. Secure client-side processing, batch conversion, and unlimited speed. No server uploads required.">
+    <meta name="keywords" content="webp to jpg, webp to png, image converter, free image converter, bulk webp converter, client-side converter, aether tools">
+    <meta name="author" content="Aether Suite">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tusitio.com/converter/">
+
+    <!-- OPEN GRAPH (Facebook/WhatsApp/LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tusitio.com/converter/">
+    <meta property="og:title" content="Aether Convert | Professional WebP Processor">
+    <meta property="og:description" content="The fastest way to convert WebP to JPG/PNG. Secure, private, and browser-based. Try it for free.">
+    <meta property="og:image" content="https://tusitio.com/assets/og-image.jpg">
+
+    <!-- TWITTER CARD -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://tusitio.com/converter/">
+    <meta name="twitter:title" content="Aether Convert | Free WebP Converter">
+    <meta name="twitter:description" content="Convert images securely in your browser. No uploads, maximum speed.">
+    <meta name="twitter:image" content="https://tusitio.com/assets/og-image.jpg">
+
+    <!-- DATOS ESTRUCTURADOS (Schema.org para Google) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Aether Convert",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free version available with batch limits. Pro version available."
+      },
+      "description": "Professional WebP to JPG and PNG converter running entirely in the browser for maximum privacy and speed. Supports batch processing and quality adjustment.",
+      "featureList": "WebP conversion, JPG compression, Batch processing, Client-side privacy",
+      "softwareRequirements": "Modern Web Browser"
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- LEMON SQUEEZY (Librería de Pagos) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- LEMON SQUEEZY -->
     <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 
     <style>
-        :root { --primary: #a61c3d; --secondary: #fae0c9; --text-dark: #4a0d1c; }
-        body { font-family: 'Inter', sans-serif; background-color: #0d0d0d; color: #fff; }
+        :root { --bg: #050505; --panel: #121212; --border: rgba(255,255,255,0.08); }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #fff; }
         
-        .glass-panel {
-            background: rgba(30, 30, 30, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        /* UI Elements */
+        .glass-panel { background: rgba(20,20,20,0.6); backdrop-filter: blur(20px); border: 1px solid var(--border); }
+        .btn-primary { background: #fff; color: #000; transition: all 0.3s; }
+        .btn-primary:hover { background: #e5e5e5; transform: translateY(-1px); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); transition: all 0.3s; }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
 
+        /* Dropzone */
+        .drop-zone {
+            border: 1px dashed rgba(255,255,255,0.1);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0) 100%);
+            transition: all 0.3s ease;
+        }
+        .drop-zone.dragover { border-color: #fff; background: rgba(255,255,255,0.05); }
+        
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
-
-        /* Drag & Drop Zone */
-        .drop-zone {
-            transition: all 0.3s ease;
-            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23FFFFFF33' stroke-width='2' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-        }
-        .drop-zone.dragover {
-            background-color: rgba(166, 28, 61, 0.1);
-            transform: scale(1.01);
-            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23a61c3d' stroke-width='3' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
-        }
-
-        /* Modal Paywall */
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-        }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden selection:bg-[#a61c3d] selection:text-white">
+<body class="h-screen flex flex-col overflow-hidden selection:bg-white selection:text-black">
 
-    <!-- HEADER -->
-    <header class="h-16 border-b border-white/10 bg-[#151515] flex items-center justify-between px-6 shrink-0 z-20">
+    <!-- HEADER: Uso de H1 semántico para SEO -->
+    <header class="h-14 border-b border-white/5 bg-[#080808] flex items-center justify-between px-6 shrink-0 z-20">
         <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg">
-                <i class="fa-solid fa-images text-white text-sm"></i>
-            </div>
-            <div>
-                <h1 class="font-bold text-lg tracking-wide text-white">OpticalH Converter <span id="proBadge" class="hidden text-[10px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded ml-1 border border-yellow-500/30">PRO</span></h1>
-                <p class="text-[10px] text-gray-400">WebP to JPG/PNG Engine</p>
-            </div>
+            <a href="../index.html" class="text-gray-500 hover:text-white transition-colors" title="Back to Suite" aria-label="Back to Dashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <!-- H1 optimizado para palabras clave pero estilizado minimalista -->
+            <h1 class="font-medium text-sm tracking-widest uppercase text-white">
+                AETHER <span class="text-gray-600">/</span> WEBP CONVERTER
+            </h1>
         </div>
-        <div class="text-xs text-gray-500 font-mono hidden md:block flex items-center gap-2">
-            <span id="planStatus" class="flex items-center gap-2"><div class="w-2 h-2 bg-gray-500 rounded-full"></div> Plan Gratuito (Máx 3 archivos)</span>
+        <div class="flex items-center gap-3">
+            <span id="proBadge" class="hidden text-[9px] bg-white text-black px-2 py-0.5 rounded font-bold tracking-wide uppercase">PRO LICENSE</span>
+            <span id="planStatus" class="text-[10px] text-gray-500">Free Plan (3 Files Max)</span>
         </div>
     </header>
 
-    <!-- MAIN -->
     <main class="flex-1 flex overflow-hidden">
-        
         <!-- SIDEBAR -->
-        <aside class="w-80 bg-[#121212] border-r border-white/5 flex flex-col shrink-0 z-10">
+        <aside class="w-72 bg-[#0a0a0a] border-r border-white/5 flex flex-col shrink-0 z-10" aria-label="Configuration Panel">
             <div class="p-6 space-y-8">
-                
-                <!-- Formato -->
                 <div>
-                    <label class="text-[10px] uppercase font-bold text-gray-500 tracking-wider mb-3 block">Formato de Salida</label>
-                    <div class="grid grid-cols-2 gap-2 p-1 bg-white/5 rounded-xl border border-white/5">
-                        <button onclick="setFormat('jpeg')" id="btnJpg" class="py-2 rounded-lg text-sm font-bold transition-all bg-[#a61c3d] text-white shadow-lg">JPG</button>
-                        <button onclick="setFormat('png')" id="btnPng" class="py-2 rounded-lg text-sm font-bold transition-all text-gray-400 hover:text-white">PNG</button>
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3 block">Output Format</label>
+                    <div class="grid grid-cols-2 gap-2 p-1 bg-white/5 rounded-lg">
+                        <button onclick="setFormat('jpeg')" id="btnJpg" class="py-1.5 rounded text-xs font-medium transition-all bg-white text-black" aria-label="Convert to JPG">JPG</button>
+                        <button onclick="setFormat('png')" id="btnPng" class="py-1.5 rounded text-xs font-medium transition-all text-gray-400 hover:text-white" aria-label="Convert to PNG">PNG</button>
                     </div>
-                    <p class="text-[10px] text-gray-500 mt-2 ml-1" id="formatDesc">Ideal para fotos. Sin transparencia.</p>
+                    <p class="text-[10px] text-gray-600 mt-2 ml-1" id="formatDesc">Best for photos. Optimized JPG compression.</p>
                 </div>
-
-                <!-- Calidad -->
                 <div id="qualityControl" class="space-y-3">
                     <div class="flex justify-between items-end">
-                        <label class="text-xs font-bold text-gray-400">Calidad JPG</label>
-                        <span id="qualityVal" class="text-xs font-mono bg-[#a61c3d] px-2 py-0.5 rounded text-white">90%</span>
+                        <label class="text-[10px] font-bold text-gray-500 uppercase">Quality</label>
+                        <span id="qualityVal" class="text-xs font-mono text-white">90%</span>
                     </div>
-                    <input type="range" id="quality" min="10" max="100" value="90" class="w-full accent-[#a61c3d] h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    <input type="range" id="quality" min="10" max="100" value="90" class="w-full h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-white" aria-label="Image Quality Slider">
                 </div>
-
-                <!-- Acciones -->
-                <div class="pt-4 border-t border-white/5">
-                    <button onclick="downloadAll()" id="btnDownloadAll" disabled class="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-all flex justify-center items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed">
-                        <i class="fa-solid fa-download"></i> Descargar Todo
+                <div class="pt-6 border-t border-white/5 mt-auto">
+                    <button onclick="downloadAll()" id="btnDownloadAll" disabled class="w-full py-3 btn-primary rounded-lg font-medium text-sm flex justify-center items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed">
+                        Download All
                     </button>
-                    <button onclick="clearList()" class="mt-3 w-full py-2 text-xs text-gray-500 hover:text-red-400 transition-colors">
-                        <i class="fa-solid fa-trash"></i> Limpiar Lista
+                    <button onclick="clearList()" class="mt-3 w-full py-2 text-[10px] text-gray-600 hover:text-red-400 transition-colors uppercase tracking-wider">
+                        Clear Queue
                     </button>
                 </div>
-
             </div>
         </aside>
 
-        <!-- ÁREA DE TRABAJO -->
-        <section class="flex-1 bg-[#0d0d0d] relative flex flex-col p-6 overflow-hidden">
-            
+        <!-- WORKSPACE -->
+        <section class="flex-1 bg-black relative flex flex-col p-6 overflow-hidden">
             <div id="dropZone" class="drop-zone flex-1 rounded-2xl flex flex-col items-center justify-center text-center cursor-pointer relative overflow-hidden group" onclick="document.getElementById('fileInput').click()">
-                <input type="file" id="fileInput" multiple accept="image/webp, image/png, image/jpeg" class="hidden" onchange="handleFiles(this.files)">
+                <input type="file" id="fileInput" multiple accept="image/*" class="hidden" onchange="handleFiles(this.files)">
                 
-                <div id="emptyState" class="pointer-events-none transition-opacity duration-300">
-                    <div class="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-white/30"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-white/80">Arrastra tus archivos WebP aquí</h2>
-                    <p class="text-sm text-white/30 mt-2">Plan Gratuito: Máx 3 archivos simultáneos</p>
+                <div id="emptyState" class="pointer-events-none transition-opacity duration-500">
+                    <i class="fa-solid fa-plus text-4xl text-white/10 mb-4 group-hover:text-white/30 transition-colors"></i>
+                    <h2 class="text-lg font-medium text-white/80 mb-1">Convert WebP to JPG</h2>
+                    <p class="text-sm text-gray-500 font-light">Drag & drop files here. Fast, private, secure.</p>
                 </div>
 
-                <div id="fileGrid" class="absolute inset-0 p-6 overflow-y-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 content-start hidden">
-                    <!-- Cards -->
-                </div>
+                <div id="fileGrid" class="absolute inset-0 p-6 overflow-y-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 content-start hidden"></div>
             </div>
-
-            <div class="mt-4 flex justify-between items-center text-xs text-gray-500 px-2">
-                <span id="statusCount">Esperando archivos...</span>
-                <span>Procesamiento local seguro</span>
+            <div class="mt-3 flex justify-between items-center text-[10px] text-gray-700 font-mono uppercase">
+                <span id="statusCount">Ready</span>
+                <span title="Privacy focused: Images never leave your device">Local Browser Processing</span>
             </div>
-
         </section>
-
     </main>
 
-    <!-- PAYWALL MODAL -->
-    <div id="paywallModal" class="fixed inset-0 modal-overlay z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-[#1a1a1a] border border-white/10 rounded-2xl shadow-2xl max-w-md w-full p-8 text-center relative overflow-hidden animate-fade-in-up">
-            <!-- Efecto de brillo de fondo -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-red-500 to-purple-500"></div>
-            
-            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl mx-auto flex items-center justify-center mb-6 shadow-lg shadow-red-900/30">
-                <i class="fa-solid fa-lock text-3xl text-white"></i>
+    <!-- PAYWALL (Estilo AETHER) -->
+    <div id="paywallModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xl bg-black/60">
+        <div class="bg-[#121212] border border-white/10 rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center relative animate-fade-in-up">
+            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6 border border-white/10">
+                <i class="fa-solid fa-lock text-white"></i>
             </div>
+            <h2 class="text-xl font-medium text-white mb-2">Unlock Unlimited Batch</h2>
+            <p class="text-gray-500 text-sm mb-8 font-light">Free tier is limited to 3 concurrent conversions. Upgrade to Aether Pro for unlimited batch processing.</p>
             
-            <h2 class="text-2xl font-bold text-white mb-2">Límite Gratuito Alcanzado</h2>
-            <p class="text-gray-400 text-sm mb-8 leading-relaxed">
-                El plan gratuito permite convertir hasta <b class="text-white">3 imágenes</b> a la vez. <br>
-                Actualiza a <b>PRO</b> para conversiones masivas ilimitadas.
-            </p>
+            <!-- ENLACE DE PAGO LEMON SQUEEZY -->
+            <a id="lemonSqueezyLink" href="#" class="lemonsqueezy-button w-full py-3 bg-white text-black font-medium rounded-lg hover:bg-gray-200 transition-colors block mb-3">
+                Upgrade to Pro - $4.99
+            </a>
             
-            <div class="space-y-3">
-                <!-- BOTÓN DE PAGO REAL (Lemon Squeezy) -->
-                <a id="lemonSqueezyLink" href="#" class="lemonsqueezy-button w-full py-4 bg-gradient-to-r from-orange-600 to-red-700 hover:from-orange-500 hover:to-red-600 text-white font-bold rounded-xl shadow-lg transition-all transform hover:scale-[1.02] flex items-center justify-center gap-2">
-                    <span>Desbloquear PRO</span>
-                    <span class="bg-black/20 text-xs py-1 px-2 rounded ml-2">$4.99</span>
-                </a>
-                <button onclick="closeModal()" class="w-full py-3 text-sm text-gray-500 hover:text-white transition-colors">
-                    No gracias, usaré solo 3 archivos
-                </button>
-            </div>
-            
-            <p class="text-[10px] text-gray-600 mt-6">Pago seguro vía Lemon Squeezy</p>
+            <button onclick="closeModal()" class="text-xs text-gray-600 hover:text-white transition-colors">Cancel</button>
         </div>
     </div>
 
     <!-- JSZIP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
     <script>
-        // ==========================================
-        //  CONFIGURACIÓN DE PAGOS (LEMON SQUEEZY)
-        // ==========================================
-        
-        // 1. PEGA AQUÍ TU ENLACE DE "CHECKOUT" DE LEMON SQUEEZY
-        const LEMON_CHECKOUT_URL = 'https://kroma.lemonsqueezy.com/buy/b8364fe0-6809-4226-a9d8-83c65712e8fa'; 
+        // CONFIGURACIÓN DE PAGO
+        const LEMON_CHECKOUT_URL = 'https://opticalh.lemonsqueezy.com/checkout/buy/TU_CODIGO_AQUI'; 
 
-        // ==========================================
-
-        let isPremium = localStorage.getItem('opticalh_pro_status') === 'true';
+        let isPremium = localStorage.getItem('aether_pro_status') === 'true';
         let currentFormat = 'jpeg';
         let currentQuality = 0.9;
         let filesData = [];
         const FREE_LIMIT = 3;
 
-        // Inicialización
-        checkProStatus(); 
-        
-        // Configurar enlace de pago
+        // INIT
+        checkProStatus();
         document.getElementById('lemonSqueezyLink').href = LEMON_CHECKOUT_URL + '?embed=1';
-
-        // Escuchar eventos de Lemon Squeezy para activar PRO automáticamente
-        window.createLemonSqueezy();
-        LemonSqueezy.Setup({
-            eventHandler: (event) => {
-                // Si el pago es exitoso
-                if (event.event === 'OrderCreated') {
-                    activatePro();
-                }
-            }
-        });
-
-        function activatePro() {
-            isPremium = true;
-            localStorage.setItem('opticalh_pro_status', 'true');
-            checkProStatus();
-            closeModal();
-            alert("¡Gracias! Tu cuenta PRO ha sido activada.");
-        }
-
-        function checkProStatus() {
-            if (isPremium) {
-                document.getElementById('proBadge').classList.remove('hidden');
-                document.getElementById('planStatus').innerHTML = '<div class="w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div> Plan PRO (Ilimitado)';
-            }
-        }
-
-        // --- LÓGICA DE LA APP (Igual que antes) ---
         
         document.getElementById('quality').addEventListener('input', (e) => {
             currentQuality = e.target.value / 100;
@@ -221,164 +187,141 @@
 
         function setFormat(fmt) {
             currentFormat = fmt;
-            // (Lógica de UI omitida por brevedad, es la misma de siempre)
-            const btnJpg = document.getElementById('btnJpg');
-            const btnPng = document.getElementById('btnPng');
+            document.getElementById('btnJpg').className = fmt === 'jpeg' ? "py-1.5 rounded text-xs font-medium transition-all bg-white text-black" : "py-1.5 rounded text-xs font-medium transition-all text-gray-400 hover:text-white";
+            document.getElementById('btnPng').className = fmt === 'png' ? "py-1.5 rounded text-xs font-medium transition-all bg-white text-black" : "py-1.5 rounded text-xs font-medium transition-all text-gray-400 hover:text-white";
+            document.getElementById('qualityControl').style.opacity = fmt === 'png' ? '0.3' : '1';
+            
+            // Actualizar descripciones para SEO y UX
             const desc = document.getElementById('formatDesc');
-            const qualityControl = document.getElementById('qualityControl');
-
-            if (fmt === 'jpeg') {
-                btnJpg.className = "py-2 rounded-lg text-sm font-bold transition-all bg-[#a61c3d] text-white shadow-lg";
-                btnPng.className = "py-2 rounded-lg text-sm font-bold transition-all text-gray-400 hover:text-white";
-                desc.innerText = "Ideal para fotos. Sin transparencia.";
-                qualityControl.classList.remove('opacity-30', 'pointer-events-none');
-            } else {
-                btnPng.className = "py-2 rounded-lg text-sm font-bold transition-all bg-[#a61c3d] text-white shadow-lg";
-                btnJpg.className = "py-2 rounded-lg text-sm font-bold transition-all text-gray-400 hover:text-white";
-                desc.innerText = "Alta calidad. Mantiene transparencia.";
-                qualityControl.classList.add('opacity-30', 'pointer-events-none');
-            }
+            if(fmt === 'jpeg') desc.innerText = "Best for photos. Optimized JPG compression.";
+            else desc.innerText = "Best for graphics. Preserves transparency.";
         }
 
-        const dropZone = document.getElementById('dropZone');
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); });
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) handleFiles(e.dataTransfer.files);
-        });
+        // DRAG & DROP
+        const dz = document.getElementById('dropZone');
+        dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
+        dz.addEventListener('dragleave', e => { e.preventDefault(); dz.classList.remove('dragover'); });
+        dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('dragover'); if(e.dataTransfer.files.length) handleFiles(e.dataTransfer.files); });
 
         function handleFiles(files) {
-            if (!isPremium && (filesData.length + files.length) > FREE_LIMIT) {
-                showPaywall();
-                return; 
-            }
+            if (!isPremium && (filesData.length + files.length) > FREE_LIMIT) { showPaywall(); return; }
             document.getElementById('emptyState').classList.add('hidden');
             document.getElementById('fileGrid').classList.remove('hidden');
-
-            Array.from(files).forEach(file => {
-                if (!file.type.startsWith('image/')) return;
-                const id = Date.now() + Math.random().toString(36).substr(2, 9);
-                const fileObj = { id: id, originalName: file.name, file: file, convertedBlob: null, convertedUrl: null };
-                filesData.push(fileObj);
-                createCard(fileObj);
-                convertImage(fileObj);
+            Array.from(files).forEach(f => {
+                if(!f.type.startsWith('image/')) return;
+                const id = Math.random().toString(36).substr(2,9);
+                const obj = { id, name: f.name, file: f, blob: null, url: null };
+                filesData.push(obj);
+                renderCard(obj);
+                processImage(obj);
             });
-            updateStatus();
+            updateUI();
         }
 
-        function createCard(item) {
+        function renderCard(item) {
             const div = document.createElement('div');
             div.id = `card-${item.id}`;
-            div.className = "bg-[#1a1a1a] border border-white/5 rounded-xl overflow-hidden group relative flex flex-col h-48 animate-fade-in";
+            div.className = "bg-[#121212] border border-white/5 rounded-lg overflow-hidden relative h-32 group";
             div.innerHTML = `
-                <div class="flex-1 bg-[#151515] relative overflow-hidden flex items-center justify-center p-2">
-                    <img id="img-${item.id}" class="max-w-full max-h-full object-contain opacity-50 transition-opacity duration-500">
-                    <div id="loader-${item.id}" class="absolute inset-0 flex items-center justify-center"><i class="fa-solid fa-circle-notch fa-spin text-[#a61c3d] text-2xl"></i></div>
-                </div>
-                <div class="h-12 bg-[#222] flex items-center justify-between px-3 border-t border-white/5">
-                    <div class="truncate text-xs text-gray-400 w-24" title="${item.originalName}">${item.originalName}</div>
-                    <span id="badge-${item.id}" class="text-[10px] bg-yellow-500/20 text-yellow-500 px-1.5 py-0.5 rounded">...</span>
-                </div>
-                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-sm">
-                    <button onclick="downloadSingle('${item.id}')" class="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition-transform"><i class="fa-solid fa-download"></i></button>
-                    <button onclick="removeFile('${item.id}')" class="w-10 h-10 rounded-full bg-red-500/20 text-red-500 border border-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-colors"><i class="fa-solid fa-trash"></i></button>
+                <div class="w-full h-full flex items-center justify-center p-2"><img id="img-${item.id}" class="max-h-full max-w-full opacity-30 grayscale transition-all" alt="Preview of ${item.name}"></div>
+                <div class="absolute top-2 right-2"><button onclick="removeFile('${item.id}')" class="text-white/20 hover:text-red-500" aria-label="Remove file"><i class="fa-solid fa-xmark"></i></button></div>
+                <div class="absolute bottom-0 w-full bg-black/80 p-2 flex justify-between items-center text-[9px] text-gray-400 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform">
+                    <span class="truncate max-w-[80px]">${item.name}</span>
+                    <button onclick="downloadSingle('${item.id}')" class="text-white hover:text-blue-400" aria-label="Download file"><i class="fa-solid fa-download"></i></button>
                 </div>
             `;
             document.getElementById('fileGrid').appendChild(div);
         }
 
-        function convertImage(item) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
+        function processImage(item) {
+            const r = new FileReader();
+            r.onload = e => {
                 const img = new Image();
                 img.onload = () => {
-                    const imgEl = document.getElementById(`img-${item.id}`);
-                    imgEl.src = e.target.result;
-                    imgEl.classList.remove('opacity-50');
-                    
-                    const canvas = document.createElement('canvas');
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    const ctx = canvas.getContext('2d');
-                    if(currentFormat === 'jpeg') { ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
-                    ctx.drawImage(img, 0, 0);
-                    
-                    canvas.toBlob((blob) => {
-                        item.convertedBlob = blob;
-                        item.convertedUrl = URL.createObjectURL(blob);
-                        document.getElementById(`loader-${item.id}`).remove();
-                        const badge = document.getElementById(`badge-${item.id}`);
-                        badge.className = "text-[10px] bg-green-500/20 text-green-500 px-1.5 py-0.5 rounded font-bold";
-                        badge.innerText = currentFormat.toUpperCase();
-                        updateStatus();
-                    }, currentFormat === 'jpeg' ? 'image/jpeg' : 'image/png', currentFormat === 'jpeg' ? currentQuality : 1.0);
+                    document.getElementById(`img-${item.id}`).src = e.target.result;
+                    const c = document.createElement('canvas');
+                    c.width = img.width; c.height = img.height;
+                    const ctx = c.getContext('2d');
+                    if(currentFormat==='jpeg'){ ctx.fillStyle='#FFF'; ctx.fillRect(0,0,c.width,c.height); }
+                    ctx.drawImage(img,0,0);
+                    c.toBlob(b => {
+                        item.blob = b;
+                        item.url = URL.createObjectURL(b);
+                        document.getElementById(`img-${item.id}`).classList.remove('opacity-30', 'grayscale');
+                        updateUI();
+                    }, currentFormat==='jpeg'?'image/jpeg':'image/png', currentFormat==='jpeg'?currentQuality:1);
                 };
                 img.src = e.target.result;
             };
-            reader.readAsDataURL(item.file);
+            r.readAsDataURL(item.file);
         }
 
+        // UTILS
         function showPaywall() { document.getElementById('paywallModal').classList.remove('hidden'); }
         function closeModal() { document.getElementById('paywallModal').classList.add('hidden'); }
+        function checkProStatus() {
+            if(isPremium) {
+                document.getElementById('proBadge').classList.remove('hidden');
+                document.getElementById('planStatus').innerText = "Unlimited Plan";
+            }
+        }
+        window.createLemonSqueezy();
+        LemonSqueezy.Setup({ eventHandler: (e) => { if(e.event === 'OrderCreated') { isPremium=true; localStorage.setItem('aether_pro_status','true'); checkProStatus(); closeModal(); } } });
 
         function downloadSingle(id) {
-            const item = filesData.find(f => f.id === id);
-            if (!item || !item.convertedUrl) return;
-            const link = document.createElement('a');
-            link.href = item.convertedUrl;
-            link.download = item.originalName.replace(/\.[^/.]+$/, "") + `_opticalh.${currentFormat === 'jpeg' ? 'jpg' : 'png'}`;
-            link.click();
+            const f = filesData.find(x=>x.id===id);
+            if(f && f.url) {
+                const a = document.createElement('a');
+                a.href = f.url; 
+                a.download = f.name.split('.')[0] + `_aether.${currentFormat}`;
+                a.click();
+            }
         }
 
         async function downloadAll() {
-            const validFiles = filesData.filter(item => item.convertedBlob);
-            if (validFiles.length === 0) return;
+            const valid = filesData.filter(x=>x.blob);
+            if(valid.length === 0) return;
             
-            // Lógica inteligente: Si son 1-2, descargar sueltos
-            if (validFiles.length <= 2) {
-                validFiles.forEach((item, i) => setTimeout(() => downloadSingle(item.id), i * 300));
-                return;
+            // Si hay 1 o 2 archivos, descargar individualmente
+            if(valid.length <= 2) { 
+                valid.forEach((f, i) => setTimeout(() => downloadSingle(f.id), i * 300)); 
+                return; 
             }
 
-            // Si son 3+, ZIP
+            // Si hay 3+, comprimir en ZIP
             const zip = new JSZip();
             const ext = currentFormat === 'jpeg' ? 'jpg' : 'png';
             const btn = document.getElementById('btnDownloadAll');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Comprimiendo...';
-
-            validFiles.forEach(item => {
-                zip.file(item.originalName.replace(/\.[^/.]+$/, "") + `.${ext}`, item.convertedBlob);
-            });
-
-            const content = await zip.generateAsync({type:"blob"});
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(content);
-            link.download = "opticalh_converted_images.zip";
-            link.click();
-            btn.innerHTML = originalText;
+            const old = btn.innerHTML;
+            btn.innerHTML = 'Compressing...';
+            valid.forEach(f => zip.file(f.name.split('.')[0] + `.${ext}`, f.blob));
+            const c = await zip.generateAsync({type:"blob"});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(c);
+            a.download = "aether_batch.zip";
+            a.click();
+            btn.innerHTML = old;
         }
 
         function removeFile(id) {
-            filesData = filesData.filter(f => f.id !== id);
+            filesData = filesData.filter(x=>x.id!==id);
             document.getElementById(`card-${id}`).remove();
-            updateStatus();
-            if (filesData.length === 0) {
-                document.getElementById('fileGrid').innerHTML = '';
-                document.getElementById('fileGrid').classList.add('hidden');
-                document.getElementById('emptyState').classList.remove('hidden');
-            }
+            updateUI();
+            if(filesData.length===0) clearList();
         }
-
-        function updateStatus() {
+        function clearList() {
+            filesData=[];
+            document.getElementById('fileGrid').innerHTML='';
+            document.getElementById('fileGrid').classList.add('hidden');
+            document.getElementById('emptyState').classList.remove('hidden');
+            updateUI();
+        }
+        function updateUI() {
             const count = filesData.length;
-            const ready = filesData.filter(f => f.convertedBlob).length;
-            const btn = document.getElementById('btnDownloadAll');
-            document.getElementById('statusCount').innerText = count > 0 ? `${ready}/${count} convertidos` : 'Esperando archivos...';
-            btn.disabled = ready === 0;
-            if (ready > 0) btn.classList.remove('opacity-30', 'cursor-not-allowed');
+            const done = filesData.filter(x=>x.blob).length;
+            document.getElementById('statusCount').innerText = count > 0 ? `${done}/${count} processed` : 'Ready';
+            document.getElementById('btnDownloadAll').disabled = done === 0;
+            if(done>0) document.getElementById('btnDownloadAll').classList.remove('opacity-30', 'cursor-not-allowed');
         }
     </script>
 </body>
