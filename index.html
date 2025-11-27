@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- VERIFICACIÓN GOOGLE SEARCH CONSOLE -->
+    <meta name="google-site-verification" content="LkKW7oW0bGQtaSS5NndaEO_CVDqUAhx1czdIqlNtyvY" />
+    
     <!-- SEO PRINCIPAL -->
     <title>Aether Convert | Free WebP to JPG & PNG Converter Tool</title>
     <meta name="description" content="Convert WebP images to high-quality JPG or PNG instantly. Secure client-side processing, batch conversion, and unlimited speed. No server uploads required.">
@@ -12,21 +15,14 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://tusitio.com/converter/">
 
-    <!-- OPEN GRAPH (Facebook/WhatsApp/LinkedIn) -->
+    <!-- OPEN GRAPH -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://tusitio.com/converter/">
     <meta property="og:title" content="Aether Convert | Professional WebP Processor">
     <meta property="og:description" content="The fastest way to convert WebP to JPG/PNG. Secure, private, and browser-based. Try it for free.">
     <meta property="og:image" content="https://tusitio.com/assets/og-image.jpg">
 
-    <!-- TWITTER CARD -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://tusitio.com/converter/">
-    <meta name="twitter:title" content="Aether Convert | Free WebP Converter">
-    <meta name="twitter:description" content="Convert images securely in your browser. No uploads, maximum speed.">
-    <meta name="twitter:image" content="https://tusitio.com/assets/og-image.jpg">
-
-    <!-- DATOS ESTRUCTURADOS (Schema.org para Google) -->
+    <!-- DATOS ESTRUCTURADOS -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -37,10 +33,10 @@
       "offers": {
         "@type": "Offer",
         "price": "0",
-        "priceCurrency": "USD",
-        "description": "Free version available with batch limits. Pro version available."
+        "priceCurrency": "EUR",
+        "description": "Free version available with batch limits. Pro version available for 1.99 EUR."
       },
-      "description": "Professional WebP to JPG and PNG converter running entirely in the browser for maximum privacy and speed. Supports batch processing and quality adjustment.",
+      "description": "Professional WebP to JPG and PNG converter running entirely in the browser for maximum privacy and speed.",
       "featureList": "WebP conversion, JPG compression, Batch processing, Client-side privacy",
       "softwareRequirements": "Modern Web Browser"
     }
@@ -56,13 +52,10 @@
         :root { --bg: #050505; --panel: #121212; --border: rgba(255,255,255,0.08); }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #fff; }
         
-        /* UI Elements */
         .glass-panel { background: rgba(20,20,20,0.6); backdrop-filter: blur(20px); border: 1px solid var(--border); }
         .btn-primary { background: #fff; color: #000; transition: all 0.3s; }
         .btn-primary:hover { background: #e5e5e5; transform: translateY(-1px); }
-        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); transition: all 0.3s; }
-        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
-
+        
         /* Dropzone */
         .drop-zone {
             border: 1px dashed rgba(255,255,255,0.1);
@@ -79,13 +72,9 @@
 </head>
 <body class="h-screen flex flex-col overflow-hidden selection:bg-white selection:text-black">
 
-    <!-- HEADER: Uso de H1 semántico para SEO -->
+    <!-- HEADER LIMPIO -->
     <header class="h-14 border-b border-white/5 bg-[#080808] flex items-center justify-between px-6 shrink-0 z-20">
         <div class="flex items-center gap-3">
-            <a href="../index.html" class="text-gray-500 hover:text-white transition-colors" title="Back to Suite" aria-label="Back to Dashboard">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <!-- H1 optimizado para palabras clave pero estilizado minimalista -->
             <h1 class="font-medium text-sm tracking-widest uppercase text-white">
                 AETHER <span class="text-gray-600">/</span> WEBP CONVERTER
             </h1>
@@ -103,8 +92,8 @@
                 <div>
                     <label class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-3 block">Output Format</label>
                     <div class="grid grid-cols-2 gap-2 p-1 bg-white/5 rounded-lg">
-                        <button onclick="setFormat('jpeg')" id="btnJpg" class="py-1.5 rounded text-xs font-medium transition-all bg-white text-black" aria-label="Convert to JPG">JPG</button>
-                        <button onclick="setFormat('png')" id="btnPng" class="py-1.5 rounded text-xs font-medium transition-all text-gray-400 hover:text-white" aria-label="Convert to PNG">PNG</button>
+                        <button onclick="setFormat('jpeg')" id="btnJpg" class="py-1.5 rounded text-xs font-medium transition-all bg-white text-black">JPG</button>
+                        <button onclick="setFormat('png')" id="btnPng" class="py-1.5 rounded text-xs font-medium transition-all text-gray-400 hover:text-white">PNG</button>
                     </div>
                     <p class="text-[10px] text-gray-600 mt-2 ml-1" id="formatDesc">Best for photos. Optimized JPG compression.</p>
                 </div>
@@ -113,7 +102,7 @@
                         <label class="text-[10px] font-bold text-gray-500 uppercase">Quality</label>
                         <span id="qualityVal" class="text-xs font-mono text-white">90%</span>
                     </div>
-                    <input type="range" id="quality" min="10" max="100" value="90" class="w-full h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-white" aria-label="Image Quality Slider">
+                    <input type="range" id="quality" min="10" max="100" value="90" class="w-full h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-white">
                 </div>
                 <div class="pt-6 border-t border-white/5 mt-auto">
                     <button onclick="downloadAll()" id="btnDownloadAll" disabled class="w-full py-3 btn-primary rounded-lg font-medium text-sm flex justify-center items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed">
@@ -146,7 +135,7 @@
         </section>
     </main>
 
-    <!-- PAYWALL (Estilo AETHER) -->
+    <!-- PAYWALL MODAL -->
     <div id="paywallModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 backdrop-blur-xl bg-black/60">
         <div class="bg-[#121212] border border-white/10 rounded-2xl shadow-2xl max-w-sm w-full p-8 text-center relative animate-fade-in-up">
             <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6 border border-white/10">
@@ -157,7 +146,7 @@
             
             <!-- ENLACE DE PAGO LEMON SQUEEZY -->
             <a id="lemonSqueezyLink" href="#" class="lemonsqueezy-button w-full py-3 bg-white text-black font-medium rounded-lg hover:bg-gray-200 transition-colors block mb-3">
-                Upgrade to Pro - $4.99
+                Upgrade to Pro - 1,99 €
             </a>
             
             <button onclick="closeModal()" class="text-xs text-gray-600 hover:text-white transition-colors">Cancel</button>
@@ -167,8 +156,8 @@
     <!-- JSZIP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
-        // CONFIGURACIÓN DE PAGO
-        const LEMON_CHECKOUT_URL = 'https://opticalh.lemonsqueezy.com/checkout/buy/TU_CODIGO_AQUI'; 
+        // CONFIGURACIÓN DE PAGO (Kroma)
+        const LEMON_CHECKOUT_URL = 'https://kroma.lemonsqueezy.com/buy/b8364fe0-6809-4226-a9d8-83c65712e8fa'; 
 
         let isPremium = localStorage.getItem('aether_pro_status') === 'true';
         let currentFormat = 'jpeg';
@@ -191,7 +180,6 @@
             document.getElementById('btnPng').className = fmt === 'png' ? "py-1.5 rounded text-xs font-medium transition-all bg-white text-black" : "py-1.5 rounded text-xs font-medium transition-all text-gray-400 hover:text-white";
             document.getElementById('qualityControl').style.opacity = fmt === 'png' ? '0.3' : '1';
             
-            // Actualizar descripciones para SEO y UX
             const desc = document.getElementById('formatDesc');
             if(fmt === 'jpeg') desc.innerText = "Best for photos. Optimized JPG compression.";
             else desc.innerText = "Best for graphics. Preserves transparency.";
@@ -223,11 +211,11 @@
             div.id = `card-${item.id}`;
             div.className = "bg-[#121212] border border-white/5 rounded-lg overflow-hidden relative h-32 group";
             div.innerHTML = `
-                <div class="w-full h-full flex items-center justify-center p-2"><img id="img-${item.id}" class="max-h-full max-w-full opacity-30 grayscale transition-all" alt="Preview of ${item.name}"></div>
-                <div class="absolute top-2 right-2"><button onclick="removeFile('${item.id}')" class="text-white/20 hover:text-red-500" aria-label="Remove file"><i class="fa-solid fa-xmark"></i></button></div>
+                <div class="w-full h-full flex items-center justify-center p-2"><img id="img-${item.id}" class="max-h-full max-w-full opacity-30 grayscale transition-all" alt="Preview"></div>
+                <div class="absolute top-2 right-2"><button onclick="removeFile('${item.id}')" class="text-white/20 hover:text-red-500"><i class="fa-solid fa-xmark"></i></button></div>
                 <div class="absolute bottom-0 w-full bg-black/80 p-2 flex justify-between items-center text-[9px] text-gray-400 backdrop-blur-sm translate-y-full group-hover:translate-y-0 transition-transform">
                     <span class="truncate max-w-[80px]">${item.name}</span>
-                    <button onclick="downloadSingle('${item.id}')" class="text-white hover:text-blue-400" aria-label="Download file"><i class="fa-solid fa-download"></i></button>
+                    <button onclick="downloadSingle('${item.id}')" class="text-white hover:text-blue-400"><i class="fa-solid fa-download"></i></button>
                 </div>
             `;
             document.getElementById('fileGrid').appendChild(div);
@@ -281,14 +269,8 @@
         async function downloadAll() {
             const valid = filesData.filter(x=>x.blob);
             if(valid.length === 0) return;
-            
-            // Si hay 1 o 2 archivos, descargar individualmente
-            if(valid.length <= 2) { 
-                valid.forEach((f, i) => setTimeout(() => downloadSingle(f.id), i * 300)); 
-                return; 
-            }
+            if(valid.length <= 2) { valid.forEach((f, i) => setTimeout(() => downloadSingle(f.id), i * 300)); return; }
 
-            // Si hay 3+, comprimir en ZIP
             const zip = new JSZip();
             const ext = currentFormat === 'jpeg' ? 'jpg' : 'png';
             const btn = document.getElementById('btnDownloadAll');
